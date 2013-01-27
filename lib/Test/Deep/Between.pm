@@ -7,23 +7,52 @@ our $VERSION = '0.01';
 
 use Test::Deep::Cmp;
 use Exporter::Lite;
-use Data::Util qw(is_number);
 
-our @EXPORT = qw(between);
+our @EXPORT = qw(between between_str);
 
 sub between {
     my ($from, $to) = @_;
     __PACKAGE__->new($from, $to);
 }
 
+sub between_str {
+    my ($from, $to) = @_;
+    __PACKAGE__->new($from, $to, 1);
+}
+
 sub init {
     my $self = shift;
-    my ($from, $to) = @_;
+    my ($from, $to, $is_str) = @_;
 
     $self->{from} = $from;
     $self->{to} = $to;
-    if ($self->{from} > $self->{to}) {
-        $self->{error_mean} = 'from_value is larger than to_value.';
+    $self->{is_str} = $is_str;
+
+    $self->_is_invalid_range();
+}
+
+sub _is_invalid_range {
+    my $self = shift;
+    if ($self->{is_str}) {
+        if ($self->{from} gt $self->{to}) {
+            $self->{error_mean} = 'from_value is larger than to_value.';
+        }
+    }
+    else {
+        if ($self->{from} > $self->{to}) {
+            $self->{error_mean} = 'from_value is larger than to_value.';
+        }
+    }
+}
+
+sub _is_in_range {
+    my $self = shift;
+    my $got = shift;
+    if ($self->{is_str}) {
+        return $self->{from} le $got && $got le $self->{to};
+    }
+    else {
+        return $self->{from} <= $got && $got <= $self->{to};
     }
 }
 
@@ -34,13 +63,8 @@ sub descend {
         return 0;
     }
 
-    if (!is_number($got)) {
-        $self->{error_mean} = '%s is not a number.';
-        return 0;
-    }
-
     $self->{error_mean} = '%s is not in %s to %s.';
-    return $self->{from} <= $got && $got <= $self->{to};
+    return $self->_is_in_range($got);
 }
 
 sub diagnostics {
@@ -77,6 +101,10 @@ This module check to got number in range in using Test::Deep.
 =head3 C<< between($from, $to) >>
 
 $expected is in $from to $to.
+
+=head3 C<< between_str($from, $to) >>
+
+$expected is in $from to $to with string compare(le).
 
 =head1 DEPENDENCIES
 

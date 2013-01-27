@@ -1,4 +1,3 @@
-.dim.pl
 .shipit
 Changes
 inc/Module/Install.pm
@@ -18,6 +17,8 @@ t/000_load.t
 t/001_check_in_range.t
 t/002_not_numeric.t
 t/003_from_is_larger_than_to.t
+t/004_not_number_compare.t
+t/005_between_str.t
 xt/perlcritic.t
 xt/pod.t
 xt/podcoverage.t
