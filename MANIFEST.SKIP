@@ -61,7 +61,7 @@
 
 # skip author's files
 \bauthor\b
-
+\.dim\.pl
 \.bs$
 \.o(?:|bj|ld|ut)$
 nytprof
