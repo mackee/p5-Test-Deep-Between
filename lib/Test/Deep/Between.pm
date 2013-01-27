@@ -21,16 +21,11 @@ sub init {
 
     $self->{from} = $from;
     $self->{to} = $to;
-
-    $self->{matcher} = sub {
-        my $got = shift;
-        return $from <= $got && $got <= $to;
-    };
 }
 
 sub descend {
     my ($self, $got) = @_;
-    return $self->{matcher}->($got);
+    return $self->{from} <= $got && $got <= $self->{to};
 }
 
 sub diagnostics {
