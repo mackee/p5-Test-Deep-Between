@@ -7,6 +7,7 @@ our $VERSION = '0.01';
 
 use Test::Deep::Cmp;
 use Exporter::Lite;
+use Data::Util qw(is_number);
 
 our @EXPORT = qw(between);
 
@@ -21,16 +22,30 @@ sub init {
 
     $self->{from} = $from;
     $self->{to} = $to;
+    if ($self->{from} > $self->{to}) {
+        $self->{error_mean} = 'from_value is larger than to_value.';
+    }
 }
 
 sub descend {
     my ($self, $got) = @_;
+
+    if (exists $self->{error_mean}) {
+        return 0;
+    }
+
+    if (!is_number($got)) {
+        $self->{error_mean} = '%s is not a number.';
+        return 0;
+    }
+
+    $self->{error_mean} = '%s is not in %s to %s.';
     return $self->{from} <= $got && $got <= $self->{to};
 }
 
 sub diagnostics {
     my ($self, $got) = @_;
-    return sprintf $got.' is not in '.$self->{from}.' to '.$self->{to}.'.';
+    return sprintf $self->{error_mean}, $got, $self->{from}, $self->{to};
 }
 
 1;

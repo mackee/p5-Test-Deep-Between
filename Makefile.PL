@@ -28,6 +28,7 @@ all_from 'lib/Test/Deep/Between.pm';
 
 requires 'Test::Deep';
 requires 'Exporter::Lite';
+requires 'Data::Util';
 test_requires 'Test::More'     => '0.88';
 test_requires 'Test::Requires' => '0.06';
 test_requires 'Test::Tester'   => '0.108';
