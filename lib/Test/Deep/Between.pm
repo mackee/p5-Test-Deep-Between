@@ -68,7 +68,7 @@ This document describes Test::Deep::Between version 0.01.
 
 =head1 DESCRIPTION
 
-# TODO
+This module check to got number in range in using Test::Deep.
 
 =head1 INTERFACE
 
