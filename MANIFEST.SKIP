@@ -42,6 +42,7 @@
 \.tmp$
 \.#
 \.rej$
+\..*\.sw[op]$
 
 # Avoid OS-specific files/dirs
 # Mac OSX metadata

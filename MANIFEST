@@ -15,7 +15,9 @@ MANIFEST.SKIP
 META.yml
 README
 t/000_load.t
-t/001_basic.t
+t/001_check_in_range.t
+t/002_not_numeric.t
+t/003_from_is_larger_than_to.t
 xt/perlcritic.t
 xt/pod.t
 xt/podcoverage.t
